@@ -1,0 +1,4 @@
+1. Explore the platforms provided by abuse.ch.
+   Check if there are APIs available for use to pull data.
+
+2. Write a simple script that can call the APIs to retrieve and process the data.

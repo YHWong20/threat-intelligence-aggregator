@@ -1,4 +1,6 @@
 import json
+import os
+import zipfile
 import csv
 import logging
 import requests
@@ -52,9 +54,19 @@ def get_threatfox_iocs():
         print(f"Error: {response.status_code}")
 
 
+def get_urlhaus_recent():
+    r = requests.get("https://urlhaus.abuse.ch/downloads/json/")
+    with open("./urlhaus.zip", 'wb') as zip_file:
+        zip_file.write(r.content)
+
+    # extract json file from zip
+    with zipfile.ZipFile("./urlhaus.zip", 'r') as zip_ref:
+        zip_ref.extractall(".")
+
+
 def main():
-    get_threatfox_iocs()
-    # get_urlhaus_recent()
+    # get_threatfox_iocs()
+    get_urlhaus_recent()
     # get_malwarebazaar_recent()
     # get_latest_cves()
 
@@ -62,16 +74,6 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-# def get_urlhaus_recent():
-#     url = "https://urlhaus-api.abuse.ch/v1/urls/recent/"
-#     response = requests.get(url)
-#     if response.status_code == 200:
-#         data = response.json()
-#         for entry in data.get("urls", [])[:5]:  # Limit output to 5 results
-#             print(f"URL: {entry['url']} | Status: {entry['status']} | Threat: {entry.get('threat', 'Unknown')}")
-#     else:
-#         print(f"Error: {response.status_code}")
 
 # def get_malwarebazaar_recent():
 #     url = "https://mb-api.abuse.ch/api/v1/"

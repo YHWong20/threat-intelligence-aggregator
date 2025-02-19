@@ -35,8 +35,12 @@ def load_data():
 
 @app.route("/")
 def index():
+    return render_template("index.html")
+
+@app.route('/threatfox')
+def threatfox():
     data = load_data()
-    return render_template("index.html", data=data, column_names=COLUMN_NAMES)
+    return render_template('threatfox.html', data=data, column_names=COLUMN_NAMES)
 
 if __name__ == "__main__":
     app.run(debug=True)
